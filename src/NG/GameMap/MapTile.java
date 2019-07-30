@@ -1,6 +1,6 @@
 package NG.GameMap;
 
-import NG.DataStructures.Direction;
+import NG.DataStructures.Generic.Direction;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Rendering.MeshLoading.Mesh;
 import NG.Rendering.MeshLoading.MeshFile;

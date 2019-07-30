@@ -1,8 +1,8 @@
 package NG.InputHandling;
 
+import NG.Core.Game;
+import NG.Core.GameAspect;
 import NG.DataStructures.Tracked.TrackedFloat;
-import NG.Engine.Game;
-import NG.Engine.GameAspect;
 import NG.GUIMenu.HUDManager;
 import NG.InputHandling.MouseTools.DefaultMouseTool;
 import NG.InputHandling.MouseTools.MouseTool;
@@ -146,11 +146,14 @@ public class MouseToolCallbacks implements GameAspect, KeyMouseCallbacks {
             Vector2i pos = game.get(GLFWWindow.class).getMousePosition();
 
             if (action == GLFW_PRESS) {
+                keyPressListeners.forEach(l -> execute(() -> l.keyPressed(button)));
                 execute(() -> currentTool.onClick(button, pos.x, pos.y));
 
             } else if (action == GLFW_RELEASE) {
+                keyReleaseListeners.forEach(l -> execute(() -> l.keyReleased(button)));
                 execute(() -> currentTool.onRelease(button, pos.x, pos.y));
             }
+
         }
     }
 
@@ -169,12 +172,12 @@ public class MouseToolCallbacks implements GameAspect, KeyMouseCallbacks {
             mouseYPos.update((float) ypos);
 
             for (MousePositionListener listener : mousePositionListeners) {
-                execute(() -> listener.mouseMoved((int) xpos, (int) ypos));
+                listener.mouseMoved((int) xpos, (int) ypos);
             }
 
             int xDiff = Toolbox.randomToInt(mouseXPos.difference());
             int yDiff = Toolbox.randomToInt(mouseYPos.difference());
-            execute(() -> currentTool.mouseMoved(xDiff, yDiff));
+            currentTool.mouseMoved(xDiff, yDiff);
         }
     }
 

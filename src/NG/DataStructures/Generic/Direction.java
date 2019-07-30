@@ -1,4 +1,4 @@
-package NG.DataStructures;
+package NG.DataStructures.Generic;
 
 import org.joml.Vector2fc;
 import org.joml.Vector2i;

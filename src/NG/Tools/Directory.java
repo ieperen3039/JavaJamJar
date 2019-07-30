@@ -11,12 +11,17 @@ import java.nio.file.Paths;
  * @author Geert van Ieperen. Created on 13-9-2018.
  */
 public enum Directory {
-    shaders(true, "resources", "shaders"),
-    meshes(true, "resources", "models"),
-    fonts(true, "resources", "fonts"),
-    screenshots(false, "Screenshots"),
-    images(true, "resources", "images"),
-    mapTileModels(true, "resources", "mapTiles");
+    shaders(true, "res", "shaders"),
+    meshes(true, "res", "models"),
+    fonts(true, "res", "fonts"),
+    screenshots(false, "res"),
+    images(true, "res", "images"),
+    mapTileModels(true, "res", "mapTiles"),
+    soundEffects(true, "res", "sounds"),
+    music(true, "res", "music"),
+
+    ;
+
 
     private static Path workingDirectory = null;
     private final Path directory; // relative path

@@ -1,7 +1,7 @@
 package NG.CollisionDetection;
 
+import NG.Core.Game;
 import NG.DataStructures.Generic.Pair;
-import NG.Engine.Game;
 import NG.Entities.Entity;
 import NG.Entities.MovingEntity;
 import NG.InputHandling.ClickShader;

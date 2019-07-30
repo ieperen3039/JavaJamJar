@@ -1,8 +1,8 @@
 package NG.GameMap;
 
 import NG.CollisionDetection.BoundingBox;
+import NG.Core.Game;
 import NG.DataStructures.Vector3fx;
-import NG.Engine.Game;
 import NG.Entities.FixedState;
 import NG.Entities.StaticEntity;
 import NG.InputHandling.MouseTools.MouseTool;

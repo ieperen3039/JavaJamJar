@@ -41,6 +41,9 @@ public class Settings {
     public float PARTICLE_SIZE = 0.2f;
     public float PARTICLE_MODIFIER = 1f;
 
+    // audio settings
+    public float SOUND_MASTER_GAIN;
+
     // UI settings
     public static int TOOL_BAR_HEIGHT = 70;
     public boolean HIDE_POINTER_ON_MAP = false;

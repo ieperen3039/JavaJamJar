@@ -2,8 +2,8 @@ package NG.GameMap;
 
 import NG.Camera.Camera;
 import NG.CollisionDetection.BoundingBox;
+import NG.Core.Game;
 import NG.DataStructures.Generic.Color4f;
-import NG.Engine.Game;
 import NG.InputHandling.MouseTools.MouseTool;
 import NG.Rendering.Material;
 import NG.Rendering.MatrixStack.SGL;

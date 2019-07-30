@@ -1,6 +1,6 @@
 package NG;
 
-import NG.Engine.Version;
+import NG.Core.Version;
 import NG.Tools.Directory;
 import NG.Tools.Logger;
 

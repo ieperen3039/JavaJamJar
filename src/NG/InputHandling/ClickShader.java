@@ -1,7 +1,7 @@
 package NG.InputHandling;
 
 import NG.Camera.Camera;
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.Entities.Entity;
 import NG.Entities.MovingEntity;
 import NG.Rendering.GLFWWindow;

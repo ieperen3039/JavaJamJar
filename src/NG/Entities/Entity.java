@@ -1,7 +1,7 @@
 package NG.Entities;
 
 import NG.CollisionDetection.BoundingBox;
-import NG.Engine.GameTimer;
+import NG.Core.GameTimer;
 import NG.Rendering.MatrixStack.SGL;
 import org.joml.Vector3fc;
 
@@ -30,16 +30,6 @@ public interface Entity {
     State getCurrentState();
 
     /**
-     * given a point on position {@code origin} and a direction of {@code direction}, calculates the fraction t in [0
-     * ... 1] such that (origin + direction * t) is the first point on this entity
-     * @param origin the origin of the line
-     * @param direction the direction and extend of the line
-     * @return the value t such that (origin + direction * t) is the first point on this entity, or 1 if it
-     * does not hit.
-     */
-    float getIntersection(Vector3fc origin, Vector3fc direction);
-
-    /**
      * get the state of this entity on the given moment in time, interpolating and extrapolating linearly when
      * necessary. The resulting state is only definite if {@code gameTime} is less than that of {@link
      * #getCurrentState()}{@link State#time() .time()}
@@ -55,6 +45,16 @@ public interface Entity {
      * @return the relative (local-space) bounding box of this entity
      */
     BoundingBox hitbox();
+
+    /**
+     * given a point on position {@code origin} and a direction of {@code direction}, calculates the fraction t in [0
+     * ... 1] such that (origin + direction * t) is the first point on this entity
+     * @param origin the origin of the line
+     * @param direction the direction and extend of the line
+     * @return the value t such that (origin + direction * t) is the first point on this entity, or 1 if it
+     * does not hit.
+     */
+    float getIntersection(Vector3fc origin, Vector3fc direction);
 
     /**
      * @param other another entity

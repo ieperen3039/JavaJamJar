@@ -1,6 +1,6 @@
 package NG.GUIMenu;
 
-import NG.Engine.GameAspect;
+import NG.Core.GameAspect;
 import NG.GUIMenu.Components.SComponent;
 import NG.GUIMenu.Frames.SFrameLookAndFeel;
 import NG.InputHandling.MouseTools.MouseTool;

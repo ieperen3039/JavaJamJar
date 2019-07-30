@@ -1,8 +1,8 @@
 package NG.Tools;
 
 import NG.Camera.Camera;
+import NG.Core.Game;
 import NG.DataStructures.Generic.Pair;
-import NG.Engine.Game;
 import NG.Rendering.GLFWWindow;
 import org.joml.*;
 

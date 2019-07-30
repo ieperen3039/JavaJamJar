@@ -1,6 +1,6 @@
 package NG.Camera;
 
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.GUIMenu.Components.SToolBar;
 import NG.GUIMenu.Frames.FrameManagerImpl;
 import NG.InputHandling.KeyMouseCallbacks;

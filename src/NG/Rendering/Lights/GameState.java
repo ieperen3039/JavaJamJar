@@ -1,7 +1,7 @@
 package NG.Rendering.Lights;
 
+import NG.Core.GameAspect;
 import NG.DataStructures.Generic.Pair;
-import NG.Engine.GameAspect;
 import NG.Entities.Entity;
 import NG.Entities.MovingEntity;
 import NG.InputHandling.MouseTools.MouseToolListener;
@@ -24,7 +24,7 @@ public interface GameState extends GameAspect, Storable, MouseToolListener {
     void update(float gameTime);
 
     /**
-     * draws the objects on the screen, according to the state of a {@link NG.Engine.GameTimer} object.
+     * draws the objects on the screen, according to the state of a {@link NG.Core.GameTimer} object.
      * @param gl the gl object to draw with
      */
     void draw(SGL gl);

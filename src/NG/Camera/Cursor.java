@@ -6,6 +6,7 @@ import NG.Entities.MovingEntity;
 import NG.Entities.State;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Tools.Toolbox;
+import org.joml.Vector3fc;
 
 import java.util.function.Supplier;
 
@@ -50,6 +51,11 @@ public class Cursor implements MovingEntity {
     @Override
     public BoundingBox hitbox() {
         return new BoundingBox(0, 0, 0, 0, 0, 0);
+    }
+
+    @Override
+    public float getIntersection(Vector3fc origin, Vector3fc direction) {
+        return 1;
     }
 
     @Override

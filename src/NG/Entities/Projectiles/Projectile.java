@@ -1,7 +1,7 @@
 package NG.Entities.Projectiles;
 
-import NG.Engine.Game;
-import NG.Engine.GameTimer;
+import NG.Core.Game;
+import NG.Core.GameTimer;
 import NG.Entities.Entity;
 import NG.Entities.MovingEntity;
 import NG.Rendering.MatrixStack.SGL;

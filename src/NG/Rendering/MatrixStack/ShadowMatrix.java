@@ -1,5 +1,7 @@
 package NG.Rendering.MatrixStack;
 
+import NG.DataStructures.Vector3fxc;
+import NG.Entities.State;
 import org.joml.*;
 
 import java.util.Stack;
@@ -22,6 +24,14 @@ public class ShadowMatrix implements MatrixStack {
     @Override
     public void rotate(float angle, float x, float y, float z) {
         rotate(new AxisAngle4f(angle, x, y, z));
+    }
+
+    @Override
+    public void translateRotate(State state) {
+        Vector3fxc pos = state.position();
+        matrix.translate(pos.x(), pos.y(), pos.z());
+        matrix.rotate(state.orientation());
+        inverseMatrix = null;
     }
 
     public void rotate(AxisAngle4f rotation) {

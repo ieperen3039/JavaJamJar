@@ -1,10 +1,9 @@
 package NG.InputHandling.MouseTools;
 
 import NG.Camera.Camera;
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.Entities.Entity;
 import NG.GUIMenu.Components.SComponent;
-import NG.GUIMenu.Components.SFrame;
 import NG.GUIMenu.HUDManager;
 import NG.GameMap.GameMap;
 import NG.InputHandling.MouseMoveListener;
@@ -40,7 +39,6 @@ public class DefaultMouseTool implements MouseTool {
     private Entity selectedEntity = null;
 
     protected Game game;
-    private SFrame selectionFrame;
 
     public DefaultMouseTool(Game game) {
         this.game = game;
@@ -123,10 +121,6 @@ public class DefaultMouseTool implements MouseTool {
         setButton(button);
 
         if (game.get(HUDManager.class).checkMouseClick(this, x, y)) return;
-
-//        // invert y for transforming to model space (inconsistency between OpenGL and GLFW)
-//        y = game.get(GLFWWindow.class).getHeight() - y;
-
         if (game.get(GameState.class).checkMouseClick(this, x, y)) return;
         game.get(GameMap.class).checkMouseClick(this, x, y);
     }

@@ -1,8 +1,8 @@
 package NG.Camera;
 
+import NG.Core.Game;
+import NG.Core.GameTimer;
 import NG.DataStructures.Tracked.ExponentialSmoothVector;
-import NG.Engine.Game;
-import NG.Engine.GameTimer;
 import NG.Entities.Entity;
 import NG.Entities.State;
 import NG.Tools.Vectors;

@@ -1,7 +1,7 @@
 package NG.GameMap;
 
 import NG.CollisionDetection.BoundingBox;
-import NG.Engine.GameAspect;
+import NG.Core.GameAspect;
 import NG.Entities.Entity;
 import NG.InputHandling.MouseTools.MouseToolListener;
 import NG.Rendering.MatrixStack.SGL;

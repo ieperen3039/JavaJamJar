@@ -2,10 +2,10 @@ package NG.GameMap;
 
 import NG.Camera.Camera;
 import NG.CollisionDetection.BoundingBox;
-import NG.DataStructures.Direction;
+import NG.Core.Game;
 import NG.DataStructures.Generic.AveragingQueue;
 import NG.DataStructures.Generic.Color4f;
-import NG.Engine.Game;
+import NG.DataStructures.Generic.Direction;
 import NG.InputHandling.MouseTools.MouseTool;
 import NG.Rendering.GLFWWindow;
 import NG.Rendering.Material;

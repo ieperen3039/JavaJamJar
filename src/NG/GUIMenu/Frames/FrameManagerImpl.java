@@ -1,6 +1,6 @@
 package NG.GUIMenu.Frames;
 
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.GUIMenu.BaseLF;
 import NG.GUIMenu.Components.SComponent;
 import NG.GUIMenu.Components.SFrame;

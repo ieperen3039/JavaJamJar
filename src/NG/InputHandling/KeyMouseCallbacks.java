@@ -16,10 +16,12 @@ public interface KeyMouseCallbacks {
     void addMousePositionListener(MousePositionListener listener);
 
     /**
+     * notifies on key press, also mouse presses
      * @param listener when a key is pressed, receives the {@link org.lwjgl.glfw.GLFW} key that is pressed
      */
     void addKeyPressListener(KeyPressListener listener);
 
+    /** @see #addKeyPressListener(KeyPressListener) */
     void addKeyReleaseListener(KeyReleaseListener listener);
 
     /**

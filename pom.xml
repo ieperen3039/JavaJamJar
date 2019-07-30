@@ -125,5 +125,10 @@
             <artifactId>pngdecoder</artifactId>
             <version>0.13</version>
         </dependency>
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl-stb</artifactId>
+            <version>3.1.2</version>
+        </dependency>
     </dependencies>
 </project>

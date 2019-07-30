@@ -1,6 +1,4 @@
-package NG.DataStructures;
-
-import NG.DataStructures.Generic.PairList;
+package NG.DataStructures.Generic;
 
 import java.lang.reflect.Array;
 import java.util.AbstractCollection;

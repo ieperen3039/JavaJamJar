@@ -1,6 +1,6 @@
 package NG.GUIMenu;
 
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.GUIMenu.Components.SComponent;
 import NG.GUIMenu.Components.SContainer;
 import NG.GUIMenu.Components.SPanel;

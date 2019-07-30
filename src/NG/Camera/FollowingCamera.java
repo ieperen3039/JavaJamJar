@@ -1,10 +1,10 @@
 package NG.Camera;
 
 import NG.CollisionDetection.PhysicsEngine;
+import NG.Core.Game;
 import NG.DataStructures.Tracked.ExponentialSmoothVector;
 import NG.DataStructures.Vector3fx;
 import NG.DataStructures.Vector3fxc;
-import NG.Engine.Game;
 import NG.Entities.Entity;
 import NG.Entities.State;
 import NG.Tools.Vectors;

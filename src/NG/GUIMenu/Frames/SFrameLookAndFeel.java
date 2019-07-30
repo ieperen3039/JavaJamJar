@@ -1,6 +1,6 @@
 package NG.GUIMenu.Frames;
 
-import NG.Engine.GameAspect;
+import NG.Core.GameAspect;
 import NG.GUIMenu.GUIPainter;
 import NG.GUIMenu.NGFonts;
 import org.joml.Vector2ic;

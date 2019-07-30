@@ -1,7 +1,7 @@
 package NG.GameEvent;
 
-import NG.Engine.Game;
-import NG.Engine.GameTimer;
+import NG.Core.Game;
+import NG.Core.GameTimer;
 import NG.Tools.Logger;
 import NG.Tools.Toolbox;
 

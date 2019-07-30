@@ -1,6 +1,6 @@
 package NG.GUIMenu.Components;
 
-import NG.Engine.Game;
+import NG.Core.Game;
 import NG.GUIMenu.Frames.FrameGUIManager;
 import NG.GUIMenu.Frames.SFrameLookAndFeel;
 import NG.InputHandling.MouseRelativeClickListener;
