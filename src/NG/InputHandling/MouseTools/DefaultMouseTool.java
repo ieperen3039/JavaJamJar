@@ -1,6 +1,7 @@
 package NG.InputHandling.MouseTools;
 
 import NG.Camera.Camera;
+import NG.CollisionDetection.GameState;
 import NG.Core.Game;
 import NG.Entities.Entity;
 import NG.GUIMenu.Components.SComponent;
@@ -10,7 +11,6 @@ import NG.InputHandling.MouseMoveListener;
 import NG.InputHandling.MouseRelativeClickListener;
 import NG.InputHandling.MouseReleaseListener;
 import NG.Rendering.GLFWWindow;
-import NG.Rendering.Lights.GameState;
 import NG.Tools.Logger;
 import NG.Tools.Vectors;
 import org.joml.Vector2i;

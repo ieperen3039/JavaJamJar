@@ -45,6 +45,10 @@ public class FixedState implements State {
         this(source.position(), source.orientation(), source.time());
     }
 
+    public FixedState(Vector3fc position, Quaternionf orientation) {
+        this(new Vector3fx(position), orientation);
+    }
+
     @Override
     public State copy() {
         return new FixedState(position, orientation, time);

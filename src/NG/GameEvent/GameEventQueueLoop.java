@@ -1,9 +1,9 @@
 package NG.GameEvent;
 
+import NG.CollisionDetection.GameState;
 import NG.Core.AbstractGameLoop;
 import NG.Core.Game;
 import NG.Core.GameTimer;
-import NG.Rendering.Lights.GameState;
 import NG.Storable;
 
 import java.io.DataOutputStream;

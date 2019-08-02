@@ -31,7 +31,7 @@ public interface GameLights extends GameAspect, Storable {
     void addDirectionalLight(Vector3fc origin, Color4f color, float intensity);
 
     /**
-     * check which shadow maps require updates, and update accordingly
+     * update the light behaviour and shadows
      */
     void renderShadowMaps();
 }

@@ -1,13 +1,19 @@
 #version 330
 
+const float LINE_THICKNESS = 0.01f;
+
 // normal of the vertex
-in vec3 mVertexNormal;
+in vec3 gVertexNormal;
 // position of the vertex
-in vec3 mVertexPosition;
+in vec3 gVertexPosition;
 // texture coordinates
-in vec2 mTexCoord;
+in vec2 gTexCoord;
 // color transformation
-in vec4 mColor;
+in vec4 gColor;
+// distances between points in triangle
+in vec3 realDistances;
+// distance of this pixel to the edges
+smooth in vec3 thisDistances;
 
 out vec4 fragColor;
 
@@ -56,6 +62,8 @@ uniform mat4 viewProjectionMatrix;
 
 uniform bool hasTexture;
 uniform bool hasColor;
+
+uniform vec4 lineColor;
 
 // global variables
 vec4 diffuse_color;
@@ -114,14 +122,14 @@ float calcShadow2D(mat4 lsMatrix, vec3 vPosition, vec3 vNormal, sampler2D shadow
 vec3 calcPointLightComponents(PointLight light) {
     if (light.intensity == 0) return vec3(0, 0, 0);
 
-    vec3 light_direction = light.mPosition - mVertexPosition;
+    vec3 light_direction = light.mPosition - gVertexPosition;
     float att = calcAttenuation(light_direction);
 
     if (att == 0) {
         return vec3(0, 0, 0);
     } else {
         float attenuatedIntensity = att * light.intensity;
-        return calcBlinnPhong(light.color, mVertexPosition, normalize(light_direction), mVertexNormal, attenuatedIntensity);
+        return calcBlinnPhong(light.color, gVertexPosition, normalize(light_direction), gVertexNormal, attenuatedIntensity);
     }
 }
 
@@ -135,17 +143,17 @@ vec3 calcDirectionalLightComponents(DirectionalLight light) {
         vec3 component = vec3(0.0, 0.0, 0.0);
 
         float staticShadow = 1.0, dynamicShadow = 1.0;
-        staticShadow = calcShadow2D(light.lightSpaceMatrix, mVertexPosition, mVertexNormal, staticShadowMap);
-        dynamicShadow = calcShadow2D(light.lightSpaceMatrix, mVertexPosition, mVertexNormal, dynamicShadowMap);
+        staticShadow = calcShadow2D(light.lightSpaceMatrix, gVertexPosition, gVertexNormal, staticShadowMap);
+        dynamicShadow = calcShadow2D(light.lightSpaceMatrix, gVertexPosition, gVertexNormal, dynamicShadowMap);
 
         if (staticShadow > 0 && dynamicShadow > 0) {
-            component = calcBlinnPhong(light.color, mVertexPosition, normalize(light.direction), mVertexNormal, light.intensity);
+            component = calcBlinnPhong(light.color, gVertexPosition, normalize(light.direction), gVertexNormal, light.intensity);
         }
 
         return component * staticShadow * dynamicShadow;
 
     } else {
-        return calcBlinnPhong(light.color, mVertexPosition, normalize(light.direction), mVertexNormal, light.intensity);
+        return calcBlinnPhong(light.color, gVertexPosition, normalize(light.direction), gVertexNormal, light.intensity);
     }
 }
 
@@ -153,14 +161,26 @@ float sigm(float x){
     return x / sqrt(1 + x * x * x);
 }
 
+bool isOnLine(){
+    if (thisDistances.x + thisDistances.y - realDistances.x < LINE_THICKNESS) return true;
+    if (thisDistances.y + thisDistances.z - realDistances.y < LINE_THICKNESS) return true;
+    if (thisDistances.z + thisDistances.x - realDistances.z < LINE_THICKNESS) return true;
+    return false;
+}
+
 void main() {
+    if (isOnLine()){
+        fragColor = lineColor;
+        return;
+    }
+
     // Setup Material
     // TODO combine these options
     if (hasTexture){
-        diffuse_color = texture(texture_sampler, mTexCoord);
+        diffuse_color = texture(texture_sampler, gTexCoord);
 
     } else if (hasColor){
-        diffuse_color = mColor;
+        diffuse_color = gColor;
 
     } else {
         diffuse_color = material.diffuse;

@@ -1,7 +1,7 @@
 package NG.Rendering.MatrixStack;
 
 import NG.Camera.Camera;
-import NG.Entities.MovingEntity;
+import NG.Entities.Entity;
 import NG.Rendering.MeshLoading.Mesh;
 import NG.Rendering.Shaders.SceneShader;
 import NG.Rendering.Shaders.ShaderProgram;
@@ -29,7 +29,7 @@ public class SceneShaderGL extends AbstractSGL {
     }
 
     @Override
-    public void render(Mesh mesh, MovingEntity sourceEntity) {
+    public void render(Mesh mesh, Entity sourceEntity) {
         Matrix4f modelMatrix = getModelMatrix();
         modelMatrix.normal(normalMatrix);
 

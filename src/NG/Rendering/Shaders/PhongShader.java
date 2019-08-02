@@ -49,7 +49,7 @@ public class PhongShader extends SceneShader {
         prepLights();
     }
 
-    public void prepLights() { // TODO inline
+    private void prepLights() { // TODO inline
         nextLightIndex = 0;
         discardRemainingLights();
         nextLightIndex = 0;

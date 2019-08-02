@@ -1,11 +1,10 @@
 package NG.InputHandling;
 
 import NG.Camera.Camera;
+import NG.CollisionDetection.GameState;
 import NG.Core.Game;
 import NG.Entities.Entity;
-import NG.Entities.MovingEntity;
 import NG.Rendering.GLFWWindow;
-import NG.Rendering.Lights.GameState;
 import NG.Rendering.MatrixStack.AbstractSGL;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Rendering.MeshLoading.Mesh;
@@ -100,7 +99,7 @@ public class ClickShader implements ShaderProgram {
         return new ClickShaderGL(windowWidth, windowHeight, camera, doIsometric);
     }
 
-    private void setEntity(MovingEntity entity) {
+    private void setEntity(Entity entity) {
         if (entity == null) return;
         if (!entity.equals(lastEntity)) {
             mapping.add(entity);
@@ -312,7 +311,7 @@ public class ClickShader implements ShaderProgram {
         }
 
         @Override
-        public void render(Mesh object, MovingEntity sourceEntity) {
+        public void render(Mesh object, Entity sourceEntity) {
             setEntity(sourceEntity);
             setProjectionMatrix(viewProjectionMatrix);
             setModelMatrix(getModelMatrix());

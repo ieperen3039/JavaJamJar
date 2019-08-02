@@ -7,7 +7,7 @@ import NG.DataStructures.Generic.Color4f;
  * @author Geert van Ieperen. Created on 13-9-2018.
  */
 public class Settings {
-    public static final String GAME_NAME = "MonsterGame"; // laaaaame
+    public static final String GAME_NAME = "JamJar"; // laaaaame
 
     // debug settings
     public boolean DEBUG = true;

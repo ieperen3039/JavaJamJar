@@ -2,7 +2,7 @@ package NG.Rendering.Shaders;
 
 import NG.Core.Game;
 import NG.DataStructures.Generic.Color4f;
-import NG.Entities.MovingEntity;
+import NG.Entities.Entity;
 import NG.Rendering.Lights.DirectionalLight;
 import NG.Rendering.MatrixStack.AbstractSGL;
 import NG.Rendering.MeshLoading.Mesh;
@@ -170,7 +170,7 @@ public class DepthShader implements ShaderProgram, LightShader {
      */
     public class DepthGL extends AbstractSGL {
         @Override
-        public void render(Mesh object, MovingEntity sourceEntity) {
+        public void render(Mesh object, Entity sourceEntity) {
             setLightSpaceMatrix(directionalLight.getLightSpaceMatrix());
             setModelMatrix(getModelMatrix());
 

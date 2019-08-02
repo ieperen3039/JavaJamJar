@@ -3,7 +3,7 @@ package NG.Particles;
 import NG.Camera.Camera;
 import NG.Core.Game;
 import NG.Core.GameTimer;
-import NG.Entities.MovingEntity;
+import NG.Entities.Entity;
 import NG.Rendering.GLFWWindow;
 import NG.Rendering.MatrixStack.AbstractSGL;
 import NG.Rendering.MeshLoading.Mesh;
@@ -132,7 +132,7 @@ public class ParticleShader implements ShaderProgram {
         }
 
         @Override
-        public void render(Mesh object, MovingEntity sourceEntity) {
+        public void render(Mesh object, Entity sourceEntity) {
             setProjection(viewProjectionMatrix);
             object.render(LOCK);
         }

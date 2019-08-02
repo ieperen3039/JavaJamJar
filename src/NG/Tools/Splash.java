@@ -41,7 +41,7 @@ public class Splash extends Frame implements Runnable {
 
         setLocation(dx, dy);
         setUndecorated(true);
-        setBackground(Color.WHITE);
+        setBackground(new Color(255, 255, 255, 0));
     }
 
     /**

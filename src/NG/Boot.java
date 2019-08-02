@@ -1,5 +1,6 @@
 package NG;
 
+import NG.Core.BlinnTest;
 import NG.Core.Version;
 import NG.Tools.Directory;
 import NG.Tools.Logger;
@@ -43,5 +44,7 @@ public class Boot {
                 + "\n\tGame version:          " + GAME_VERSION
                 + "\n\tMain directory         " + Directory.workDirectory()
         );
+
+        new BlinnTest().root();
     }
 }

@@ -23,7 +23,7 @@
     <properties>
         <lwjgl.version>RELEASE</lwjgl.version>
         <lwjgl.natives>natives-windows</lwjgl.natives>
-        <lwjgl.natives>natives-linux</lwjgl.natives>
+<!--        <lwjgl.natives>natives-linux</lwjgl.natives>-->
     </properties>
 
     <dependencies>

@@ -26,6 +26,7 @@ import static org.lwjgl.opengl.GL13.*;
 public class BlinnPhongShader extends SceneShader implements TextureShader {
     private static final Path VERTEX_PATH = Directory.shaders.getPath("BlinnPhong", "blinnphong.vert");
     private static final Path FRAGMENT_PATH = Directory.shaders.getPath("BlinnPhong", "blinnphong.frag");
+    private static final Path GEOMETRY_PATH = Directory.shaders.getPath("BlinnPhong", "blinnphong.geom");
     private static final int MAX_POINT_LIGHTS = 10;
     private static final float SPECULAR_POWER = 10f;
 
@@ -37,7 +38,7 @@ public class BlinnPhongShader extends SceneShader implements TextureShader {
      *                         itself, and should exclude any first slash)
      */
     public BlinnPhongShader() throws ShaderException, IOException {
-        super(VERTEX_PATH, null, FRAGMENT_PATH);
+        super(VERTEX_PATH, GEOMETRY_PATH, FRAGMENT_PATH);
 
         createUniform("material.diffuse");
         createUniform("material.specular");
@@ -61,19 +62,24 @@ public class BlinnPhongShader extends SceneShader implements TextureShader {
 
         createUniform("hasTexture");
         createUniform("hasColor");
+
+        createUniform("lineColor");
     }
 
     @Override
     public void initialize(Game game) {
+        Settings settings = game.get(Settings.class);
         // Base variables
         Vector3fc eye = game.get(Camera.class).getEye();
         setUniform("ambientLight", Settings.AMBIENT_LIGHT.toVector3f());
         setUniform("cameraPosition", eye);
         setUniform("specularPower", SPECULAR_POWER);
-        setUniform("directionalLight.shadowEnable", game.get(Settings.class).STATIC_SHADOW_RESOLUTION > 0);
+        setUniform("directionalLight.shadowEnable", settings.STATIC_SHADOW_RESOLUTION > 0);
 
         setUniform("hasTexture", false);
         setUniform("hasColor", false);
+
+        setUniform("lineColor", Color4f.WHITE);
 
         // Texture for the model
         setUniform("texture_sampler", 0);

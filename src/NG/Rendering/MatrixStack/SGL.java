@@ -1,6 +1,6 @@
 package NG.Rendering.MatrixStack;
 
-import NG.Entities.MovingEntity;
+import NG.Entities.Entity;
 import NG.Rendering.MeshLoading.Mesh;
 import NG.Rendering.Shaders.ShaderProgram;
 import org.joml.Matrix4fc;
@@ -16,7 +16,7 @@ public interface SGL extends MatrixStack {
      * @param object       A Mesh that has not been disposed.
      * @param sourceEntity the entity that is currently drawn
      */
-    void render(Mesh object, MovingEntity sourceEntity);
+    void render(Mesh object, Entity sourceEntity);
 
     /** @return the shader that is used for rendering. */
     ShaderProgram getShader();
