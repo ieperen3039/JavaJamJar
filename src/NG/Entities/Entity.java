@@ -3,7 +3,11 @@ package NG.Entities;
 import NG.CollisionDetection.BoundingBox;
 import NG.Core.GameTimer;
 import NG.Rendering.MatrixStack.SGL;
+import org.joml.Vector3f;
 import org.joml.Vector3fc;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Geert van Ieperen created on 26-7-2019.
@@ -21,6 +25,7 @@ public interface Entity {
     /**
      * updates the {@link #getCurrentState()} of this entity to the given gameTime
      * @param gameTime the current game time
+     * @see State#update(float)
      */
     void update(float gameTime);
 
@@ -49,12 +54,31 @@ public interface Entity {
     /**
      * given a point on position {@code origin} and a direction of {@code direction}, calculates the fraction t in [0
      * ... 1] such that (origin + direction * t) is the first point on this entity
-     * @param origin the origin of the line
+     * @param origin    the origin of the line
      * @param direction the direction and extend of the line
-     * @return the value t such that (origin + direction * t) is the first point on this entity, or 1 if it
-     * does not hit.
+     * @return the value t such that (origin + direction * t) is the first point on this entity, or 1 if it does not
+     * hit.
      */
     float getIntersection(Vector3fc origin, Vector3fc direction);
+
+    /**
+     * returns the points of the shape of this entity as consistent with {@link #getCurrentState()}
+     * @return a list of the exact wolrd-positions of the vertices of the shape of this object. Changes in the list are
+     * not reflected in this object.
+     */
+    default List<Vector3f> getShapePoints() {
+        return getShapePoints(new ArrayList<>());
+    }
+
+    /**
+     * returns the points of the shape of this entity as consistent with {@link #getCurrentState()} and store the result
+     * in the vectors of dest.
+     * @param dest a list of vectors. If the result requires more or less elements, the redundant elements are deleted,
+     *             and required elements are added.
+     * @return a list of the exact wolrd-positions of the vertices of the shape of this object. Changes in the list are
+     * not reflected in this object.
+     */
+    List<Vector3f> getShapePoints(List<Vector3f> dest);
 
     /**
      * @param other another entity
@@ -62,7 +86,7 @@ public interface Entity {
      * entity should also not respond on a collision with this.
      */
     default boolean canCollideWith(Entity other) {
-        return (other instanceof MovingEntity);
+        return (other != this && other instanceof MovingEntity);
     }
 
     /**
@@ -78,7 +102,7 @@ public interface Entity {
     void collideWith(Entity other, float collisionTime);
 
     /**
-     * Marks the track piece to be invalid, such that the {@link #isDisposed()} method returns true.
+     * Marks the entity to be invalid, such that the {@link #isDisposed()} method returns true.
      */
     void dispose();
 

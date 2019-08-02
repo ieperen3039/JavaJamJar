@@ -1,8 +1,8 @@
 package NG.GameMap;
 
 import NG.Rendering.MeshLoading.MeshFile;
-import NG.Rendering.Shapes.BasicShape;
-import NG.Rendering.Shapes.Shape;
+import NG.Shapes.BasicShape;
+import NG.Shapes.Shape;
 import NG.Tools.Logger;
 import NG.Tools.Toolbox;
 import org.joml.Vector3fc;

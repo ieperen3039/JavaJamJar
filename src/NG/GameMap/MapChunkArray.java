@@ -141,7 +141,7 @@ public class MapChunkArray implements MapChunk {
     }
 
     @Override
-    public void writeToFile(DataOutputStream out) throws IOException {
+    public void writeToStream(DataOutputStream out) throws IOException {
         for (MapTile.Instance[] tileStrip : tiles) {
             for (MapTile.Instance tile : tileStrip) {
                 MapTile type = tile.type; // implementation dependent
@@ -153,7 +153,7 @@ public class MapChunkArray implements MapChunk {
     }
 
     @Override
-    public void readFromFile(DataInputStream in, Map<Integer, MapTile> mapping) throws IOException {
+    public void readFromStream(DataInputStream in, Map<Integer, MapTile> mapping) throws IOException {
         for (MapTile.Instance[] tileStrip : tiles) {
             for (int i = 0; i < tileStrip.length; i++) {
 

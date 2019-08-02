@@ -5,7 +5,7 @@ import NG.Rendering.Material;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Rendering.Shaders.MaterialShader;
 import NG.Rendering.Shaders.ShaderProgram;
-import NG.Rendering.Shapes.GenericShapes;
+import NG.Shapes.GenericShapes;
 import org.joml.AABBf;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;

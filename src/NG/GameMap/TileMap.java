@@ -186,9 +186,9 @@ public class TileMap extends AbstractMap {
                     gl.translate(realChunkSize, 0, 0);
                 }
             }
+            gl.popMatrix();
 
             culledChunks.add(numOfCulled);
-            gl.popMatrix();
         }
     }
 
@@ -301,7 +301,7 @@ public class TileMap extends AbstractMap {
             // now write the chunks themselves
             for (MapChunk[] mapChunks : map) {
                 for (MapChunk chunk : mapChunks) {
-                    chunk.writeToFile(out);
+                    chunk.writeToStream(out);
                 }
             }
         }
@@ -358,7 +358,7 @@ public class TileMap extends AbstractMap {
 
             for (int my = 0; my < yChunks; my++) {
                 MapChunkArray chunk = new MapChunkArray(chunkSize);
-                chunk.readFromFile(in, types);
+                chunk.readFromStream(in, types);
                 yStrip[my] = chunk;
             }
             map[mx] = yStrip;

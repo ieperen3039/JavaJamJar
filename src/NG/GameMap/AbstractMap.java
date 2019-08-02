@@ -10,6 +10,7 @@ import NG.Tools.Vectors;
 import org.joml.*;
 
 import java.lang.Math;
+import java.util.List;
 
 import static NG.Settings.Settings.TILE_SIZE;
 
@@ -113,6 +114,12 @@ public abstract class AbstractMap extends StaticEntity implements GameMap {
         }
 
         return 1;
+    }
+
+    @Override
+    public List<Vector3f> getShapePoints(List<Vector3f> dest) {
+        dest.clear(); // returning all points is expensive and can be left out
+        return dest;
     }
 
     /**

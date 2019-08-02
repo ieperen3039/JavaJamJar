@@ -2,7 +2,7 @@ package NG.Particles;
 
 import NG.DataStructures.Generic.Color4f;
 import NG.Rendering.MatrixStack.MatrixStack;
-import NG.Rendering.Shapes.Primitives.Plane;
+import NG.Shapes.Primitives.Plane;
 import NG.Tools.Toolbox;
 import NG.Tools.Vectors;
 import org.joml.Vector3f;

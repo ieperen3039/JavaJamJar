@@ -6,8 +6,10 @@ import NG.Entities.MovingEntity;
 import NG.Entities.State;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Tools.Toolbox;
+import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -56,6 +58,12 @@ public class Cursor implements MovingEntity {
     @Override
     public float getIntersection(Vector3fc origin, Vector3fc direction) {
         return 1;
+    }
+
+    @Override
+    public List<Vector3f> getShapePoints(List<Vector3f> dest) {
+        dest.clear();
+        return dest;
     }
 
     @Override

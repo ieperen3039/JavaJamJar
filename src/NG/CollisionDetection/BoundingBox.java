@@ -22,14 +22,16 @@ public class BoundingBox extends AABBf {
     /**
      * moves this bounding box by adding the given vector to its components
      * @param displacement a vector describing the movement
+     * @return this
      */
-    public void move(Vector3fc displacement) {
+    public BoundingBox move(Vector3fc displacement) {
         minX += displacement.x();
         minY += displacement.y();
         minZ += displacement.z();
         maxX += displacement.x();
         maxY += displacement.y();
         maxZ += displacement.z();
+        return this;
     }
 
     /**

@@ -55,7 +55,8 @@ public interface MapChunk {
     /**
      * toggles whether the tiles previously set by {@link #highlight(int, int)} should be highlighted or not. Calls to
      * this method do not change the set of tiles that are highlighted.
-     * @param doHighlight when true, highights are made visible,. when false, highlight are made not visible
+     * @param doHighlight when true, all highlighted tiles are made visible,. when false, no highlighted tiles are
+     *                    visible.
      */
     void setHighlight(boolean doHighlight);
 
@@ -64,10 +65,26 @@ public interface MapChunk {
      */
     void clearHighlight();
 
-    void writeToFile(DataOutputStream out) throws IOException;
+    /**
+     * write the data to the given stream, such that this chunk can be recreated using the same constructor as this
+     * object, and a call to {@link #readFromStream(DataInputStream, Map)}. Note that the tile type is stored by id, and
+     * a mapping from id to tile type must be stored separately.
+     * @param out the output stream
+     * @throws IOException if an exception occurs while writing. The state is then undetermined.
+     */
+    void writeToStream(DataOutputStream out) throws IOException;
 
-    void readFromFile(DataInputStream in, Map<Integer, MapTile> mapping) throws IOException;
+    /**
+     * read the data to the given stream, inverting a call to {@link #writeToStream(DataOutputStream)}.
+     * @param in      the output stream
+     * @param mapping maps a tile id to the tile implementation.
+     * @throws IOException if an exception occurs while writing. The state is then undetermined.
+     */
+    void readFromStream(DataInputStream in, Map<Integer, MapTile> mapping) throws IOException;
 
+    /**
+     * @return an object holding the lowest and highest z-values that the surface of this chunk has.
+     */
     Extremes getMinMax();
 
     class Extremes {

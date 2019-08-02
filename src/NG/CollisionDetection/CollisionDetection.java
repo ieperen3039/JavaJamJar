@@ -4,14 +4,14 @@ import NG.DataStructures.Generic.AveragingQueue;
 import NG.DataStructures.Generic.ConcurrentArrayList;
 import NG.DataStructures.Generic.Pair;
 import NG.DataStructures.Generic.PairList;
-import NG.DataStructures.Vector3fx;
 import NG.DataStructures.Vector3fxc;
 import NG.Entities.Entity;
 import NG.Entities.MovingEntity;
-import NG.Entities.State;
 import NG.Tools.Logger;
 import NG.Tools.Toolbox;
+import org.joml.AABBf;
 import org.joml.RayAabIntersection;
+import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import java.util.*;
@@ -32,11 +32,12 @@ public class CollisionDetection {
     private CollisionEntity[] yLowerSorted;
     private CollisionEntity[] zLowerSorted;
 
-    private AveragingQueue avgCollision;
+    private AveragingQueue avgCollisions;
 
     private Collection<Entity> staticEntities;
     private Collection<MovingEntity> dynamicEntities;
     private Collection<MovingEntity> newEntities;
+    private float previousTime;
 
     /**
      * @see #CollisionDetection(Collection)
@@ -57,7 +58,7 @@ public class CollisionDetection {
         this.newEntities = new ConcurrentArrayList<>();
 
         Logger.printOnline(() ->
-                String.format("Collision pair count average: %1.01f", avgCollision.average())
+                String.format("Collision pair count average: %1.01f", avgCollisions.average())
         );
 
         int nOfEntities = staticEntities.size();
@@ -67,7 +68,7 @@ public class CollisionDetection {
 
         populate(staticEntities, xLowerSorted, yLowerSorted, zLowerSorted);
 
-        avgCollision = new AveragingQueue(5);
+        avgCollisions = new AveragingQueue(5);
     }
 
     /**
@@ -133,27 +134,28 @@ public class CollisionDetection {
             entity.update(gameTime);
         }
 
-
         /** -- analyse the collisions -- */
 
         /* As a single collision may result in a previously not-intersecting pair to collide,
          * we shouldn't re-use the getIntersectingPairs method nor reduce by non-collisions.
          * On the other hand, we may assume collisions of that magnitude appear seldom
          */
-        PairList<Entity, Entity> pairs = getIntersectingPairs();
+        PairList<CollisionEntity, CollisionEntity> pairs = getIntersectingPairs();
 
         IntStream.range(0, pairs.size())
                 .parallel()
                 .forEach(n -> {
                     int checksLeft = MAX_COLLISION_ITERATIONS;
-                    Entity left = pairs.left(n);
-                    Entity right = pairs.right(n);
+                    CollisionEntity left = pairs.left(n);
+                    CollisionEntity right = pairs.right(n);
 
                     boolean didCollide;
                     do {
                         didCollide = checkCollisionPair(left, right, gameTime);
                     } while (didCollide && (--checksLeft > 0));
                 });
+
+        previousTime = gameTime;
     }
 
 
@@ -163,46 +165,55 @@ public class CollisionDetection {
      * @param gameTime the time of the next game-tick
      * @return true iff these pairs indeed collided before endTime
      */
-    private boolean checkCollisionPair(Entity alpha, Entity beta, float gameTime) {
-        assert !alpha.canCollideWith(beta) && !beta.canCollideWith(alpha);
+    private boolean checkCollisionPair(CollisionEntity alpha, CollisionEntity beta, float gameTime) {
+        Entity a = alpha.entity;
+        Entity b = beta.entity;
 
+        assert !a.canCollideWith(b) && !b.canCollideWith(a);
         // this may change with previous collisions
-        if (alpha.isDisposed() || beta.isDisposed() || alpha == beta) return false;
+        if (a.isDisposed() || b.isDisposed() || a == b) return false;
 
-        BoundingBox aBox = alpha.hitbox();
-        State aCurState = alpha.getCurrentState();
-        State aNextState = alpha.getStateAt(gameTime);
-
-        BoundingBox bBox = beta.hitbox();
-        State bCurState = beta.getCurrentState();
-        State bNextState = beta.getStateAt(gameTime);
-
-        if (aCurState.time() < bCurState.time()) {
-            aCurState = alpha.getStateAt(bCurState.time());
-        }
-        if (bCurState.time() < aCurState.time()) {
-            bCurState = beta.getStateAt(aCurState.time());
-        }
-
-        Vector3fxc aPos = aCurState.position();
-        Vector3fc aMove = new Vector3fx(aNextState.position()).sub(aPos).toVector3f();
-
-        Vector3fxc bPos = bCurState.position();
-        Vector3fc bMove = new Vector3fx(bNextState.position()).sub(bPos).toVector3f();
-
-        float aFrac = aBox.relativeCollisionFraction(aPos, aMove, bBox, bPos, bMove);
-        float bFrac = bBox.relativeCollisionFraction(bPos, bMove, aBox, aPos, aMove);
+        float bFrac = checkAtoB(alpha, b);
+        float aFrac = checkAtoB(beta, a);
 
         float hitFrac = Math.min(aFrac, bFrac);
         if (hitFrac == 1) return false;
 
-        float startTime = aCurState.time();
-        float collisionTime = startTime + hitFrac * (startTime - gameTime);
+        float collisionTime = previousTime + hitFrac * (previousTime - gameTime);
 
-        alpha.collideWith(beta, collisionTime);
-        beta.collideWith(alpha, collisionTime);
+        /*
+         Note: if en entity collides with many entities in one tick, it will affect and be affected by all the
+         entities it would collide with, even if the first deflects it. A solution is complex and expensive.
+         */
+        a.collideWith(b, collisionTime);
+        b.collideWith(a, collisionTime);
 
         return true;
+    }
+
+    /**
+     * checks whether {@code moving} collides with {@code receiving}
+     * @param moving an object holding an entity
+     * @param receiver another entity
+     * @return 1 if moving does not hit the receiver, otherwise a value t [0 ... 1) such that {@code origin + t *
+     * direction}
+     */
+    private float checkAtoB(CollisionEntity moving, Entity receiver) {
+        List<Vector3f> prev = moving.prevPoints;
+        List<Vector3f> next = moving.nextPoints;
+
+        float bFrac = 1;
+        for (int i = 0; i < prev.size(); i++) {
+            Vector3f origin = next.get(i);
+            Vector3f direction = new Vector3f(prev.get(i)).sub(origin);
+            float intersection = receiver.getIntersection(origin, direction);
+
+            if (intersection < bFrac) {
+                bFrac = intersection;
+            }
+        }
+
+        return bFrac;
     }
 
     /**
@@ -210,7 +221,7 @@ public class CollisionDetection {
      * ground, but not an object with itself. One pair does not occur the other way around.
      * @return a collection of pairs of objects that are close to each other
      */
-    private PairList<Entity, Entity> getIntersectingPairs() {
+    private PairList<CollisionEntity, CollisionEntity> getIntersectingPairs() {
         Toolbox.insertionSort(xLowerSorted, CollisionEntity::xLower);
         Toolbox.insertionSort(yLowerSorted, CollisionEntity::yLower);
         Toolbox.insertionSort(zLowerSorted, CollisionEntity::zLower);
@@ -233,12 +244,12 @@ public class CollisionDetection {
 
         int nrOfElts = adjacencies.nrOfFoundElements();
 
-        PairList<Entity, Entity> allEntityPairs = new PairList<>(nrOfElts);
+        PairList<CollisionEntity, CollisionEntity> allEntityPairs = new PairList<>(nrOfElts);
         adjacencies.forEach((i, j) -> allEntityPairs.add(
-                entityArray[i].entity, entityArray[j].entity
+                entityArray[i], entityArray[j]
         ));
 
-        avgCollision.add(nrOfElts);
+        avgCollisions.add(nrOfElts);
         return allEntityPairs;
     }
 
@@ -420,52 +431,57 @@ public class CollisionDetection {
         newEntities.clear();
     }
 
-    protected class CollisionEntity {
+    protected static class CollisionEntity {
         public final Entity entity;
         public int id;
 
-        private BoundingBox range;
-        private float x;
-        private float y;
-        private float z;
+        public List<Vector3f> nextPoints;
+        public List<Vector3f> prevPoints;
+
+        private BoundingBox nextBoundingBox;
+        private AABBf hitbox; // combined of both states
 
         public CollisionEntity(Entity source) {
             this.entity = source;
-            this.range = entity.hitbox();
+            prevPoints = entity.getShapePoints();
         }
 
-        // TODO include previous position
-        public void update(float time) {
-            Vector3fc middle = entity.getStateAt(time)
-                    .position()
-                    .toVector3f();
-            x = middle.x();
-            y = middle.y();
-            z = middle.z();
+        public void update(float gameTime) {
+            entity.update(gameTime);
+
+            List<Vector3f> buffer = prevPoints;
+            prevPoints = nextPoints;
+            nextPoints = entity.getShapePoints(buffer);
+
+            Vector3fxc nextPos = entity.getCurrentState().position();
+            BoundingBox prevBoundingBox = nextBoundingBox;
+            nextBoundingBox = entity.hitbox().move(nextPos.toVector3f());
+
+            hitbox = prevBoundingBox.union(nextBoundingBox);
         }
 
         public float xUpper() {
-            return x + range.maxX;
+            return hitbox.maxX;
         }
 
         public float yUpper() {
-            return y + range.maxY;
+            return hitbox.maxY;
         }
 
         public float zUpper() {
-            return z + range.maxZ;
+            return hitbox.maxZ;
         }
 
         public float xLower() {
-            return x - range.minX;
+            return hitbox.minX;
         }
 
         public float yLower() {
-            return y - range.minY;
+            return hitbox.minY;
         }
 
         public float zLower() {
-            return z - range.minZ;
+            return hitbox.minZ;
         }
 
         @Override
@@ -478,7 +494,7 @@ public class CollisionDetection {
      * tracks how often pairs of integers are added, and allows querying whether a given pair has been added at least a
      * given number of times.
      */
-    private class AdjacencyMatrix {
+    private static class AdjacencyMatrix {
         // this map is indexed using the entity id values, with i > j
         // if (adjacencyMatrix[i][j] == n) then entityArray[i] and entityArray[j] have n coordinates with coinciding intervals
         Map<Integer, Map<Integer, Integer>> relations;

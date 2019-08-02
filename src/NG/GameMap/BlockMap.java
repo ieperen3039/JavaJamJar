@@ -9,7 +9,7 @@ import NG.Rendering.Material;
 import NG.Rendering.MatrixStack.SGL;
 import NG.Rendering.Shaders.MaterialShader;
 import NG.Rendering.Shaders.ShaderProgram;
-import NG.Rendering.Shapes.GenericShapes;
+import NG.Shapes.GenericShapes;
 import NG.Tools.AStar;
 import org.joml.*;
 
